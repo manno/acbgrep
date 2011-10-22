@@ -13,10 +13,10 @@ void on_pattern_found(struct ac_pattern* p, unsigned int pos){
   // expect 0, 1, 3, 11, 12
 }
 
-#ifdef BIGOPEN
 /*
  * MAIN
  */
+#ifdef BINSEARCH
 int main(int argc, char *argv[]) {
   int fd;
 

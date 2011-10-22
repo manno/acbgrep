@@ -1,11 +1,11 @@
-all: big bigt
+all: binsearch test
 SRCFILES = src/libac.c src/libhexstring.c
 DEFS = -DNODEBUG
 
-big:
+binsearch:
 	cd src/ahocorasick && gcc ${DEFS} aho-corasick.c -c
 	rm -f bingrep
-	gcc -g ${DEFS} -Dbingrep src/bingrep.c ${SRCFILES} src/ahocorasick/aho-corasick.o -o bingrep
+	gcc -g ${DEFS} -DBINSEARCH src/bingrep.c ${SRCFILES} src/ahocorasick/aho-corasick.o -o bingrep
 	
 test:
 	cd src/ahocorasick && gcc aho-corasick.c -c
