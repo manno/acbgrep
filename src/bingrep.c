@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 
   if(argc < 2) {
     fprintf(stderr, "bigopen\n");
-    fprintf(stderr, "usage: %s <file> <hex> <hex>\n", *argv);
+    fprintf(stderr, "usage: %s <file> <hexstring> <hexstring>\n", *argv);
     return 1;
   }
 

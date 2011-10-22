@@ -21,6 +21,9 @@
 #include "support/list.h"
 #include "aho-corasick.h"
 
+#define bug() printf("(BUG) at %s:%d\n",__FUNCTION__,__LINE__)
+#define returnbug(a) do {bug(); return(a);} while (0)
+
 /// free an AC table from a given startnode (recursively)
 static void ac_free(struct ac_state *state)
 {
@@ -31,7 +34,7 @@ static void ac_free(struct ac_state *state)
 			ac_free(state->next[i]);
 	if (state->output)
 		ac_pattern_delete(state->output);
-	myfree(state);
+	free(state);
 }
 
 /// initialize the empty-table
@@ -52,7 +55,7 @@ void ac_destroy(struct ac_table *in)
 			ac_free(in->zerostate->next[i]);
 			in->zerostate->next[i] = NULL;
 		}
-	myfree(in->zerostate);
+	free(in->zerostate);
 }
 
 int ac_maketree(struct ac_table *g)
@@ -101,7 +104,7 @@ int ac_addpattern(struct ac_table *g, struct ac_pattern* pattern)
   int slen = pattern->len;
 	
 	if ( !g->zerostate ){
-		g->zerostate = myalloc(sizeof(struct ac_state));
+		g->zerostate = malloc(sizeof(struct ac_state));
 		if (!g->zerostate)
 			returnbug(-1);
 		g->idcounter = 1;
@@ -125,7 +128,7 @@ int ac_addpattern(struct ac_table *g, struct ac_pattern* pattern)
 		while( j < slen )
 		{
 			// Create new state
-			next = myalloc(sizeof(struct ac_state));
+			next = malloc(sizeof(struct ac_state));
 			if ( !next )
 				returnbug(-1);
 			next->id = g->idcounter++;
@@ -143,7 +146,7 @@ int ac_addpattern(struct ac_table *g, struct ac_pattern* pattern)
     state->output = pattern;
 
 		g->patterncounter++;
-		//dprintf("AhoCorasick: added %dth pattern %s, the DFA now consists of %d states\n",
+		//printf("AhoCorasick: added %dth pattern %s, the DFA now consists of %d states\n",
 		//		g->patterncounter, string, g->idcounter);
 	}
 

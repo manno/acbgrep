@@ -6,7 +6,6 @@
 //
 // LGPL license applies
 
-#include "macros.h"
 #include "list.h"
 
 struct list * list_insert_sorted(struct list *start, void *id)

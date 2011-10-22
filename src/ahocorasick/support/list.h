@@ -19,8 +19,6 @@
 #include <string.h>
 #endif
 
-#include "macros.h"
-
 struct list {
 	void *id;
 	struct list *next;
@@ -31,7 +29,7 @@ static inline struct list * list_create(void *id)
 {
 	struct list * new;
 
-	new = myalloc (sizeof(struct list));
+	new = malloc (sizeof(struct list));
 	if (!new)
 		return NULL;
 	new->id = id;
@@ -94,7 +92,7 @@ static inline struct list * list_pop(struct list *start)
 	
 	tmp = start;
 	start = start->next;
-	myfree(tmp);
+	free(tmp);
 	
 	return start;
 }
@@ -163,7 +161,7 @@ static inline struct list * list_unlink(struct list *cur)
 static inline struct list * list_remove(struct list *cur)
 {
 	struct list * elem = list_unlink(cur);
-	myfree(cur);
+	free(cur);
 	return elem;
 }
 
