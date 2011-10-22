@@ -14,8 +14,8 @@ struct big_searches *searches[BIG_PATTERNSIZE];
 struct ac_pattern *patterns[BIG_PATTERNSIZE];
 
 void  grab_patterns( int fd, int min_pattern_num, int min_pattern_length ) {
-  // find n patterns in file
 
+  // find n patterns in file
   unsigned int file_size = lseek(fd, 0, SEEK_END);
   int patterns_wanted = nrandom(20)+ min_pattern_num;
   fprintf( stderr, "[=] testing %d patterns in a %d byte file\n", patterns_wanted, file_size);

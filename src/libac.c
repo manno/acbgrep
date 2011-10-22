@@ -14,13 +14,6 @@ void search(int fd, struct ac_table* table, ac_pattern_found on_pattern_found) {
 
   // iterate all buffers in file
   while( r = read(fd, buffer, BIG_BUFSIZE) ) {
-    /*
-    register int offs=0;
-    // iterate all sequential findings in buffer
-    do {
-      offs = ac_buffer_search( ctx, buffer, offs, r );
-    } while (offs >= 0 && offs<=r);
-    */
     ac_buffer_findall( ctx, buffer, r );
     ctx->file_offset += r;
   }

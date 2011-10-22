@@ -97,7 +97,6 @@ int ac_addpattern(struct ac_table *g, struct ac_pattern* pattern)
 	struct ac_state *state, *next = NULL;
 	int j, done = 0;
 
-  // TODO
   unsigned char *string = pattern->p;
   int slen = pattern->len;
 	
@@ -225,8 +224,8 @@ void dump_state(struct ac_search_context* ctx, struct ac_state* state, int ts ) 
   }
   printf("%s</id%02d>\n", tabs, state->id);
 }
-
 #endif
+
 /*
  * buffer
  * in_buffer_offset
@@ -242,45 +241,20 @@ ac_buffer_search(struct ac_search_context* ctx, unsigned char* buffer, int offs,
   // check every char from offs
   for(j=offs; j<len; j++){
 
-#ifdef DEBUG
-    // 20307437 - 16427fcdb14b3b
-    int tw = 0;
-    unsigned int bpos = ctx->file_offset + offs+j;
-    if( bpos > 20307432 && bpos < 20307460 ) {
-      printf("inside the twilight zone at %d with offs %d ", bpos, offs);
-      tw = 1;
-    }
-    if( bpos > 17389248 && bpos < 17389280 ){ 
-      printf("inside the twilight zone at %d with offs %d ", bpos, offs);
-      tw=1;
-    }
-#endif
-
-#ifdef DEBUG2
-      if( bpos == 20307437 )
-        //printf(" is a pro : %02x\n", *(buffer+j));
-        //dump_state(ctx, ctx->g->zerostate, 0);
-        dump_state(ctx, nextstate, 0);
-#endif
-
     nextstate = ctx->state->next[*(buffer+j)];
     if(!nextstate){
       
-#ifdef DEBUG
-      if(tw==1) printf( "[ === ] no nexstate \n");
-#endif        
-
       laststate = ctx->state;
       ctx->state = ctx->state->fail;
       // slows things down considerably, but what you wann do?
       // descend another branch on this position
       nextstate = ctx->state->next[*(buffer+j)];
       if (nextstate && nextstate != laststate) {
+
 #ifdef DEBUG
-        if(tw==1) printf( "[ === ] no nexstate output \n");
-        if( bpos == 20307437 || bpos == 17389268) dump_state(ctx, nextstate, 0);
+        dump_state(ctx, nextstate, 0);
 #endif
-        //if (!nextstate) { return 1; }
+
         ctx->state = nextstate;
       }
 
@@ -291,17 +265,15 @@ ac_buffer_search(struct ac_search_context* ctx, unsigned char* buffer, int offs,
 #ifdef DEBUG
     unsigned int test = *(buffer+j);
     if (tw==1)
-      printf("STATE: %d %d =  %02x (%d)\n", ctx->file_offset+offs+j, offs+j, test, ctx->state != NULL ? ctx->state->depth: 99 );
+      printf("STATE: %d %d =  %02x (%d)\n", ctx->file_offset+offs+j, 
+          offs+j, test, ctx->state != NULL ? ctx->state->depth: 99 );
 #endif    
 
     // is this a terminal node?
     if(ctx->state->output) {
       int found = j - ctx->state->depth + 1;
-      //if (found<1)
-      //found=1;
       unsigned int pos = ctx->file_offset + offs + found;
       ctx->on_found( ctx->state->output, pos );
-      //return found;
     }
   }
 
@@ -315,8 +287,7 @@ ac_buffer_findall(struct ac_search_context* ctx, unsigned char* buffer, int len)
   int j=0;
   do {
 
-
-    // warum werden ineinandergeschachtelte pattern nicht gefunden?
+    // TODO warum werden ineinandergeschachtelte pattern nicht gefunden?
 
     nextstate = ctx->state->next[*(buffer+j)];
     if(nextstate == NULL){
@@ -341,7 +312,4 @@ ac_buffer_findall(struct ac_search_context* ctx, unsigned char* buffer, int len)
 
     j++;
   } while (j<len);
-
-  // TODO Buffergrenze
-
 }

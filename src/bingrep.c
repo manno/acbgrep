@@ -10,7 +10,6 @@
  */
 void on_pattern_found(struct ac_pattern* p, unsigned int pos){
   printf("[*] found pattern %s at %04d\n", p->hexstring, pos);
-  // expect 0, 1, 3, 11, 12
 }
 
 /*

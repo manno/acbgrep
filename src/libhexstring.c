@@ -20,7 +20,7 @@ int nrandom( int n ) {
  */
 int ascii2hex( const char c )
 {
-  // taken from bgrep
+  // taken from bgrep.c (https://raw.github.com/tmbinc/bgrep/master/bgrep.c)
   if (c < '0')
     return -1;
   else if (c <= '9')

@@ -12,3 +12,9 @@ test:
 	cd src && gcc -c -g bingrep.c
 	rm -f test
 	gcc ${OPT} ${SRCFILES} src/ahocorasick/aho-corasick.o src/bingrep.o src/test.c -o test
+
+tests:
+	dd if=/dev/urandom of=testfile bs=1024 count=5
+	./test testfile
+	./bingrep testfile 3031323334 35363738
+
