@@ -1,9 +1,9 @@
 /**
   implementation of the Aho-Corasick pattern matching algorithm.
-    
-  original code was taken from another module by Georgios Portokalidis with his permission. 
+
+  original code was taken from another module by Georgios Portokalidis with his permission.
   updated to fit FFPF1.5 in January of 2006 by Willem de Bruijn
-  
+
   Fairly Fast Packet Filter - http://ffpf.sourceforge.net/
 
   Copyright (c), 2003 - 2006 Georgios Portokalidis, Herbert Bos & Willem de Bruijn

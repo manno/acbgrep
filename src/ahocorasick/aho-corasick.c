@@ -1,9 +1,9 @@
 /**
   implementation of the Aho-Corasick pattern matching algorithm.
-    
-  original code was taken from another module by Georgios Portokalidis with his permission. 
+
+  original code was taken from another module by Georgios Portokalidis with his permission.
   updated to fit FFPF1.5 in January of 2006 by Willem de Bruijn
-  
+
   Fairly Fast Packet Filter - http://ffpf.sourceforge.net/
 
   Copyright (c), 2003 - 2006 Georgios Portokalidis, Herbert Bos & Willem de Bruijn
@@ -102,7 +102,7 @@ int ac_addpattern(struct ac_table *g, struct ac_pattern* pattern)
 
   unsigned char *string = pattern->p;
   int slen = pattern->len;
-	
+
 	if ( !g->zerostate ){
 		g->zerostate = malloc(sizeof(struct ac_state));
 		if (!g->zerostate)
@@ -135,13 +135,13 @@ int ac_addpattern(struct ac_table *g, struct ac_pattern* pattern)
 			next->depth = state->depth + 1;
 			next->output = NULL;
 			memset(next->next, 0, AHO_CORASICK_CHARACTERS * sizeof(struct ac_state *));
-			
+
 			state->next[*(string+j)] = next;
 			state = next;
 			j++;
 		}
 	}
-	
+
 	if (!state->output){	// add the leaf (why?)
     state->output = pattern;
 
@@ -173,7 +173,7 @@ ac_pattern_delete(struct ac_pattern* p){
 	free(p);
 }
 
-struct ac_search_context* 
+struct ac_search_context*
 ac_search_context_new(struct ac_table* g, ac_pattern_found on_found ) {
 	struct ac_search_context* ctx = malloc(sizeof(*ctx));
   ctx->file_offset = 0;
@@ -246,7 +246,7 @@ ac_buffer_search(struct ac_search_context* ctx, unsigned char* buffer, int offs,
 
     nextstate = ctx->state->next[*(buffer+j)];
     if(!nextstate){
-      
+
       laststate = ctx->state;
       ctx->state = ctx->state->fail;
       // slows things down considerably, but what you wann do?
@@ -268,9 +268,9 @@ ac_buffer_search(struct ac_search_context* ctx, unsigned char* buffer, int offs,
 #ifdef DEBUG
     unsigned int test = *(buffer+j);
     if (tw==1)
-      printf("STATE: %d %d =  %02x (%d)\n", ctx->file_offset+offs+j, 
+      printf("STATE: %d %d =  %02x (%d)\n", ctx->file_offset+offs+j,
           offs+j, test, ctx->state != NULL ? ctx->state->depth: 99 );
-#endif    
+#endif
 
     // is this a terminal node?
     if(ctx->state->output) {

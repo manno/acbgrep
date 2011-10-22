@@ -45,7 +45,7 @@ static inline struct list * list_insert(struct list *start, void *id)
 
 	if (!new)
 		return NULL;
-	
+
 	if (start){
 		new->next = start;
 		start->prev = new;
@@ -59,10 +59,10 @@ static inline struct list * list_concat(struct list *list1, struct list *list2)
 
 	if (!list2)
 		return list1;
-	
+
 	if (!list1)
 		return list2;
-	
+
 	cur = list1;
 	while (cur->next)
 		cur = cur->next;
@@ -77,9 +77,9 @@ static inline struct list * list_append(struct list *start, void *id)
 	return list_concat(start, new);
 }
 
-/** strange function for a list 
-  * used only for duplicate removal 
-  * 
+/** strange function for a list
+  * used only for duplicate removal
+  *
   * note that the function returns NULL in two
   * distinct cases: no 'start', or 'start' is the only item
   */
@@ -89,18 +89,18 @@ static inline struct list * list_pop(struct list *start)
 
 	if (!start)
 		return NULL;
-	
+
 	tmp = start;
 	start = start->next;
 	free(tmp);
-	
+
 	return start;
 }
 
 static inline struct list * list_invert(struct list *start)
 {
 	struct list *cur, *tmp=NULL;
-	
+
 	if (!start->next)
 		return start;
 
@@ -124,14 +124,14 @@ static inline struct list * list_exists(struct list *start, void * id)
 
 	if (!start)
 		return NULL;
-	
+
 	// find our spot in the list
 	cur = start;
 	while (cur && cur->id != id)
 		cur = cur->next;
 	if (!cur)
 		return NULL;
-	else	
+	else
 		return cur;
 }
 
@@ -151,7 +151,7 @@ static inline struct list * list_unlink(struct list *cur)
 
 	if (!tmp)
 		return NULL; // no cur->next && no cur->prev ? then it's an empty list
-		
+
 	while (tmp->prev)
 		tmp = tmp->prev;
 	return tmp; // return the new startnode
@@ -165,7 +165,7 @@ static inline struct list * list_remove(struct list *cur)
 	return elem;
 }
 
-static inline struct list * list_remove_id(struct list * list, void * id) 
+static inline struct list * list_remove_id(struct list * list, void * id)
 {
 	struct list * elem = list_exists(list, id);
 	if (elem)

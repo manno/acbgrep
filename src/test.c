@@ -34,7 +34,7 @@ void  grab_patterns( int fd, int min_pattern_num, int min_pattern_length ) {
     //fprintf( stderr, "[=] read %d bytes\n", (int) len);
     if (len<0)
       break;
-    if (len==0) { 
+    if (len==0) {
       i=patterns_wanted;
       continue;
     }
@@ -101,7 +101,7 @@ int main(int argc, char *argv[]) {
   // init aho machine
   fprintf( stderr, "[=] create table for all patterns\n" );
   struct ac_table *table = create_aho( patterns );
-  
+
   // reset fd
   lseek(fd, 0, SEEK_SET);
 
@@ -123,7 +123,7 @@ int main(int argc, char *argv[]) {
   if (tainted==1) {
     i=0;
     while( searches[i] != NULL ) {
-      fprintf( stderr, "[!] pattern id%02d found %d times: %-70s at %d\n", 
+      fprintf( stderr, "[!] pattern id%02d found %d times: %-70s at %d\n",
           searches[i]->pattern->id,
           searches[i]->found,
           searches[i]->pattern->hexstring,
