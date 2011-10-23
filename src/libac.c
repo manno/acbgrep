@@ -78,8 +78,8 @@ struct ac_pattern* hexstring2byte( char* hexstring ) {
   return ac_pattern_new( value, len, hexbackup );
 }
 
-struct  big_searches* big_searches_new(struct ac_pattern* pattern, unsigned int position) {
-  struct big_searches *bs = malloc( sizeof(*bs) );
+struct  ac_finding* ac_finding_new(struct ac_pattern* pattern, unsigned int position) {
+  struct ac_finding *bs = malloc( sizeof(*bs) );
   // expected pat
   bs->pattern = pattern;
   // expected pos

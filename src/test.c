@@ -10,7 +10,7 @@
 #include "libhexstring.h"
 
 // global find these again
-struct big_searches *searches[BIG_PATTERNSIZE];
+struct ac_finding *searches[BIG_PATTERNSIZE];
 struct ac_pattern *patterns[BIG_PATTERNSIZE];
 
 void  grab_patterns( int fd, int min_pattern_num, int min_pattern_length ) {
@@ -48,7 +48,7 @@ void  grab_patterns( int fd, int min_pattern_num, int min_pattern_length ) {
 
     // and our searches
     patterns[i] = ac_pattern_new( pattern, len, hexstring );
-    searches[i] = big_searches_new( patterns[i], pos );
+    searches[i] = ac_finding_new( patterns[i], pos );
     patterns[i]->id = i;
 
     fprintf( stderr, "[ ] pattern id%02d (%s len=%d) at %d\n", i,
@@ -66,7 +66,7 @@ void  grab_patterns( int fd, int min_pattern_num, int min_pattern_length ) {
 void check_pattern_found(struct ac_pattern* p, unsigned int pos){
   //printf("[ ] found pattern id%02d (%s) at %04d\n", p->id, p->hexstring, pos);
 
-  struct big_searches *search = searches[ p->id ];
+  struct ac_finding *search = searches[ p->id ];
 
   if( search->position == pos ) {
     printf("[*] found expected pattern id%02d (%s) at %04d\n", p->id, p->hexstring, pos);
