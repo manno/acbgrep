@@ -8,14 +8,14 @@
 /**
  * Callback
  */
-void on_pattern_found(struct ac_pattern* p, unsigned int pos){
-  printf("[*] found pattern %s at %04d\n", p->hexstring, pos);
+void on_pattern_found(struct ac_pattern* p, unsigned long pos){
+  printf("[*] found pattern %s at %04lu\n", p->hexstring, pos);
 }
 
 /*
  * MAIN
  */
-#ifdef BINSEARCH
+#ifndef TEST
 int main(int argc, char *argv[]) {
   int fd;
 
@@ -33,13 +33,13 @@ int main(int argc, char *argv[]) {
 
   // parse patterns from cmdline
   struct ac_pattern *patterns[BIG_PATTERNSIZE];
-  create_patterns(patterns, argc-2, argv+2);
+  ac_create_patterns(patterns, argc-2, argv+2);
 
   // init aho machine
   struct ac_table *table = create_aho( patterns );
 
   // search in file
-  search(fd, table, on_pattern_found);
+  ac_search(fd, table, on_pattern_found);
 
   return 0;
 }

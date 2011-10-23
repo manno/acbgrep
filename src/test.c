@@ -62,23 +62,26 @@ void  grab_patterns( int fd, int min_pattern_num, int min_pattern_length ) {
 
 }
 
-
-void check_pattern_found(struct ac_pattern* p, unsigned int pos){
+void check_pattern_found(struct ac_pattern* p, unsigned long pos){
   //printf("[ ] found pattern id%02d (%s) at %04d\n", p->id, p->hexstring, pos);
 
   struct ac_finding *search = searches[ p->id ];
 
   if( search->position == pos ) {
-    printf("[*] found expected pattern id%02d (%s) at %04d\n", p->id, p->hexstring, pos);
+    printf("[*] found expected pattern id%02d (%s) at %04lu\n", p->id, p->hexstring, pos);
     search->found++;
   }
 }
 
+/*
+ * test the search implementation
+ */
+#ifdef TEST
 int main(int argc, char *argv[]) {
   int fd;
 
   if(argc < 1) {
-    fprintf(stderr, "big_test\n");
+    fprintf(stderr, "acbtest\n");
     fprintf(stderr, "usage: %s <file>\n", *argv);
     return 1;
   }
@@ -107,7 +110,7 @@ int main(int argc, char *argv[]) {
 
   // search in file
   fprintf( stderr, "[=] search file\n");
-  search(fd, table, check_pattern_found);
+  ac_search(fd, table, check_pattern_found);
 
   int i = 0;
   int tainted = 0;
@@ -123,7 +126,7 @@ int main(int argc, char *argv[]) {
   if (tainted==1) {
     i=0;
     while( searches[i] != NULL ) {
-      fprintf( stderr, "[!] pattern id%02d found %d times: %-70s at %d\n",
+      fprintf( stderr, "[!] pattern id%02d found %d times: %-70s at %lu\n",
           searches[i]->pattern->id,
           searches[i]->found,
           searches[i]->pattern->hexstring,
@@ -136,3 +139,4 @@ int main(int argc, char *argv[]) {
   printf( "[!] ok\n");
   return 0;
 }
+#endif

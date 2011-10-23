@@ -153,8 +153,8 @@ int ac_addpattern(struct ac_table *g, struct ac_pattern* pattern)
 	return 0;
 }
 
-// FIXME maybe handle this id like the patterncounter?
 unsigned int ac_pattern_id = 0;
+
 struct ac_pattern*
 ac_pattern_new(void* mem, size_t len, char* hexstring) {
 	struct ac_pattern* p = malloc(sizeof(*p));
@@ -229,61 +229,6 @@ void dump_state(struct ac_search_context* ctx, struct ac_state* state, int ts ) 
 }
 #endif
 
-/*
- * buffer
- * in_buffer_offset
- * buffer_length
- * @returns in_buffer_begin_pattern
- */
-unsigned int
-ac_buffer_search(struct ac_search_context* ctx, unsigned char* buffer, int offs, int len) {
-	register struct ac_state *laststate;
-	register struct ac_state *nextstate;
-  int j=0;
-
-  // check every char from offs
-  for(j=offs; j<len; j++){
-
-    nextstate = ctx->state->next[*(buffer+j)];
-    if(!nextstate){
-
-      laststate = ctx->state;
-      ctx->state = ctx->state->fail;
-      // slows things down considerably, but what you wann do?
-      // descend another branch on this position
-      nextstate = ctx->state->next[*(buffer+j)];
-      if (nextstate && nextstate != laststate) {
-
-#ifdef DEBUG
-        dump_state(ctx, nextstate, 0);
-#endif
-
-        ctx->state = nextstate;
-      }
-
-    } else{
-      ctx->state = nextstate;
-    }
-
-#ifdef DEBUG
-    unsigned int test = *(buffer+j);
-    if (tw==1)
-      printf("STATE: %d %d =  %02x (%d)\n", ctx->file_offset+offs+j,
-          offs+j, test, ctx->state != NULL ? ctx->state->depth: 99 );
-#endif
-
-    // is this a terminal node?
-    if(ctx->state->output) {
-      int found = j - ctx->state->depth + 1;
-      unsigned int pos = ctx->file_offset + offs + found;
-      ctx->on_found( ctx->state->output, pos );
-    }
-  }
-
-  // nothing in buffer
-	return -1;
-}
-
 void
 ac_buffer_findall(struct ac_search_context* ctx, unsigned char* buffer, int len) {
 	register struct ac_state *nextstate;
@@ -306,10 +251,14 @@ ac_buffer_findall(struct ac_search_context* ctx, unsigned char* buffer, int len)
       ctx->state = nextstate != NULL ? nextstate : ctx->g->zerostate;
     }
 
-    // is this a terminal node?
+#ifdef DEBUG
+        dump_state(ctx, ctx->state, 0);
+#endif
+
+    // is this a node with content, a match?
     if(ctx->state->output != NULL) {
       int found = j - ctx->state->depth + 1;
-      unsigned int pos = ctx->file_offset + found;
+      unsigned long pos = ctx->file_offset + found;
       ctx->on_found( ctx->state->output, pos );
     }
 

@@ -7,7 +7,7 @@
 /**
  * search
  */
-void search(int fd, struct ac_table* table, ac_pattern_found on_pattern_found) {
+void ac_search(int fd, struct ac_table* table, ac_pattern_found on_pattern_found) {
   unsigned char buffer[BIG_BUFSIZE];
   struct ac_search_context *ctx =  ac_search_context_new( table, on_pattern_found );
   int r;
@@ -19,7 +19,7 @@ void search(int fd, struct ac_table* table, ac_pattern_found on_pattern_found) {
   }
 }
 
-void create_patterns( struct ac_pattern* patterns[], int argc, char *argv[]) {
+void ac_create_patterns( struct ac_pattern* patterns[], int argc, char *argv[]) {
   // parse patterns, last pointer is null
   int i = 0;
   while( i < argc && i < BIG_PATTERNSIZE ) {
@@ -78,7 +78,7 @@ struct ac_pattern* hexstring2byte( char* hexstring ) {
   return ac_pattern_new( value, len, hexbackup );
 }
 
-struct  ac_finding* ac_finding_new(struct ac_pattern* pattern, unsigned int position) {
+struct  ac_finding* ac_finding_new(struct ac_pattern* pattern, unsigned long position) {
   struct ac_finding *bs = malloc( sizeof(*bs) );
   // expected pat
   bs->pattern = pattern;
