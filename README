@@ -1,9 +1,17 @@
+= NAME =
+
+aho-corasick binary grep
+
+= DESCRIPTION =
+
 "acbgrep" is a grep for large binary files. It uses an aho-corasick implementation from fairly fast packet filter to search for multiple patterns at once.
 
 Binary data is passed to acbgrep via the command line as hexstrings:
 
   A => 40
 
+
+= USAGE = 
 Example usage:
 
   search for 123 in file 'largefile':
