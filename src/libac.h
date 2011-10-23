@@ -3,9 +3,9 @@
 #define BIG_BUFSIZE BUFSIZ
 
 struct ac_finding {
-  struct ac_pattern* pattern;
-  unsigned long position;
-  int found;
+        struct ac_pattern* pattern;
+        unsigned long position;
+        int found;
 };
 
 

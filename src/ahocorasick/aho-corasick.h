@@ -8,7 +8,7 @@
 
   Copyright (c), 2003 - 2006 Georgios Portokalidis, Herbert Bos & Willem de Bruijn
   contact info : wdebruij_AT_users.sourceforge.net
-*/
+  */
 
 #ifndef AHO_CORASICK_H
 #define AHO_CORASICK_H
@@ -16,24 +16,24 @@
 #define AHO_CORASICK_CHARACTERS 256
 
 struct ac_pattern {
-	unsigned char* p;
-  char* hexstring;
-	size_t len;
-  unsigned int id;
+        unsigned char* p;
+        char* hexstring;
+        size_t len;
+        unsigned int id;
 };
 
 struct ac_state {
-	unsigned int id;
-	unsigned int depth;
-	struct ac_pattern *output;
-	struct ac_state *fail;
-	struct ac_state *next[AHO_CORASICK_CHARACTERS];
+        unsigned int id;
+        unsigned int depth;
+        struct ac_pattern *output;
+        struct ac_state *fail;
+        struct ac_state *next[AHO_CORASICK_CHARACTERS];
 };
 
 struct ac_table {
-	unsigned int idcounter;
-	unsigned int patterncounter;
-	struct ac_state *zerostate;
+        unsigned int idcounter;
+        unsigned int patterncounter;
+        struct ac_state *zerostate;
 };
 
 struct ac_pattern* ac_pattern_new(void*, size_t, char*);
@@ -48,10 +48,10 @@ struct ac_search_context* ac_search_context_new(struct ac_table*, ac_pattern_fou
 #define AC_FOUND_ERROR -1
 
 struct ac_search_context {
-	unsigned long file_offset;
-	struct ac_state *state;
-  struct ac_table *g;
-  ac_pattern_found on_found;
+        unsigned long file_offset;
+        struct ac_state *state;
+        struct ac_table *g;
+        ac_pattern_found on_found;
 };
 
 void ac_destroy(struct ac_table *);
