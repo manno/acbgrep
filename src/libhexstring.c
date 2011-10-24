@@ -11,8 +11,12 @@ char* get_hexstring( unsigned char* pattern, int len ) {
     return result;
 }
 
-int nrandom( int n ) {
+int nrand( int n ) {
   return rand()/(int)(((unsigned)RAND_MAX + 1) / n);
+}
+
+unsigned long nrandom( unsigned long n ) {
+  return (random() % n);
 }
 
 /*

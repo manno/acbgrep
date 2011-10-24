@@ -16,9 +16,9 @@ struct ac_pattern *patterns[BIG_PATTERNSIZE];
 void  grab_patterns( int fd, int min_pattern_num, int min_pattern_length ) {
 
         // find n patterns in file
-        unsigned int file_size = lseek(fd, 0, SEEK_END);
+        unsigned long file_size = lseek(fd, 0, SEEK_END);
         int patterns_wanted = nrandom(20)+ min_pattern_num;
-        fprintf( stderr, "[=] testing %d patterns in a %d byte file\n", patterns_wanted, file_size);
+        fprintf( stderr, "[=] testing %d patterns in a %lu byte file\n", patterns_wanted, file_size);
 
         int i = 0;
         unsigned char buffer[BIG_BUFSIZE];
@@ -28,7 +28,7 @@ void  grab_patterns( int fd, int min_pattern_num, int min_pattern_length ) {
                 int ahead = nrandom(file_size)/patterns_wanted;
                 if (ahead <= pattern_length)
                         ahead = pattern_length+1;
-                unsigned int pos = lseek(fd, ahead, SEEK_CUR);
+                unsigned long pos = lseek(fd, ahead, SEEK_CUR);
                 pattern_length = nrandom(28) + min_pattern_length;
                 int len = read(fd, buffer, pattern_length);
                 //fprintf( stderr, "[=] read %d bytes\n", (int) len);
@@ -51,7 +51,7 @@ void  grab_patterns( int fd, int min_pattern_num, int min_pattern_length ) {
                 searches[i] = ac_finding_new( patterns[i], pos );
                 patterns[i]->id = i;
 
-                fprintf( stderr, "[ ] pattern id%02d (%s len=%d) at %d\n", i,
+                fprintf( stderr, "[ ] pattern id%02d (%s len=%d) at 0x%lx\n", i,
                                 patterns[i]->hexstring, (int) len, pos);
 
                 i++;
