@@ -8,7 +8,7 @@
 #include "libach.h"
 #include "libhexstring.h"
 
-struct ac_pattern* ach_hexstring2byte( char* hexstring ) {
+struct ac_pattern* ach_hexstring2pattern( char* hexstring ) {
         char  *hexbackup = hexstring;
 
         unsigned char value[ACH_PATTERNSIZE];
@@ -30,7 +30,7 @@ void ach_create_patterns( struct ac_pattern* patterns[], int argc, char *argv[])
         // parse patterns, last pointer is null
         int i = 0;
         while( i < argc && i < ACH_PATTERNSIZE ) {
-                patterns[i] = ach_hexstring2byte( argv[i] );
+                patterns[i] = ach_hexstring2pattern( argv[i] );
                 fprintf( stderr, "[ ] pattern %01d = %s\n", i, patterns[i]->hexstring);
                 i++;
         }

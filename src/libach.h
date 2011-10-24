@@ -25,7 +25,7 @@ struct ach_search_context* ach_search_context_new(struct ac_table*, ach_pattern_
 
 void ach_create_patterns( struct ac_pattern*[], int, char *[]);
 
-struct ac_pattern* ach_hexstring2byte( char* );
+struct ac_pattern* ach_hexstring2pattern( char* );
 
 struct ac_table* ach_create_aho( struct ac_pattern*[] );
 
