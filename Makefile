@@ -7,10 +7,10 @@ clean:
 	rm -f acbgrep test
 	
 binsearch:
-	gcc ${DEFS} ${OPT} ./src/ahocorasick/aho-corasick.c ./src/ahocorasick/support/list.c  ./src/libhexstring.c ./src/libac.c ./src/acbgrep.c -o acbgrep
+	gcc ${DEFS} ${OPT} ./src/ahocorasick/aho-corasick.c ./src/ahocorasick/support/list.c  ./src/libhexstring.c ./src/libach.c ./src/acbgrep.c -o acbgrep
 
 test:
-	gcc -DTEST ${DEFS} ${OPT} ./src/ahocorasick/aho-corasick.c ./src/ahocorasick/support/list.c  ./src/libhexstring.c ./src/libac.c ./src/acbgrep.c src/test.c -o test
+	gcc -DTEST ${DEFS} ${OPT} ./src/ahocorasick/aho-corasick.c ./src/ahocorasick/support/list.c  ./src/libhexstring.c ./src/libach.c ./src/acbgrep.c src/test.c -o test
 
 
 tests:

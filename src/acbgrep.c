@@ -3,7 +3,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include "ahocorasick/aho-corasick.h"
-#include "libac.h"
+#include "libach.h"
 
 /**
  * Callback
@@ -32,14 +32,14 @@ int main(int argc, char *argv[]) {
         }
 
         // parse patterns from cmdline
-        struct ac_pattern *patterns[BIG_PATTERNSIZE];
-        ac_create_patterns(patterns, argc-2, argv+2);
+        struct ac_pattern *patterns[ACH_PATTERNSIZE];
+        ach_create_patterns(patterns, argc-2, argv+2);
 
         // init aho machine
-        struct ac_table *table = create_aho( patterns );
+        struct ac_table *table = ach_create_aho( patterns );
 
         // search in file
-        ac_search(fd, table, on_pattern_found);
+        ach_search(fd, table, on_pattern_found);
 
         return 0;
 }

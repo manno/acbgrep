@@ -1,16 +1,35 @@
 // maximum number and length of search patterns
-#define BIG_PATTERNSIZE 255
-#define BIG_BUFSIZE BUFSIZ
+#define ACH_PATTERNSIZE 255
+#define ACH_BUFSIZE BUFSIZ
 
-struct ac_finding {
+#ifdef TEST
+struct ach_finding {
         struct ac_pattern* pattern;
         unsigned long position;
         int found;
 };
 
+struct  ach_finding* ach_finding_new(struct ac_pattern*, unsigned long );
+#endif
 
-void ac_search(int, struct ac_table*, ac_pattern_found);
-struct ac_table* create_aho( struct ac_pattern*[] );
-void ac_create_patterns( struct ac_pattern*[], int, char *[]);
-struct ac_pattern* hexstring2byte( char* );
-struct  ac_finding* ac_finding_new(struct ac_pattern*, unsigned long );
+typedef void(*ach_pattern_found)(struct ac_pattern*, unsigned long pos);
+
+struct ach_search_context {
+        unsigned long file_offset;
+        struct ac_state *state;
+        struct ac_table *g;
+        ach_pattern_found on_found;
+};
+
+struct ach_search_context* ach_search_context_new(struct ac_table*, ach_pattern_found);
+
+void ach_create_patterns( struct ac_pattern*[], int, char *[]);
+
+struct ac_pattern* ach_hexstring2byte( char* );
+
+struct ac_table* ach_create_aho( struct ac_pattern*[] );
+
+void ach_search(int, struct ac_table*, ach_pattern_found);
+
+void ach_buffer_findall(struct ach_search_context*, unsigned char*, int);
+

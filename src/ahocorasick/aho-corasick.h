@@ -42,20 +42,9 @@ void ac_init(struct ac_table *);
 int ac_addpattern(struct ac_table *, struct ac_pattern* );
 int ac_maketree(struct ac_table *);
 
-typedef void(*ac_pattern_found)(struct ac_pattern*, unsigned long pos);
-struct ac_search_context* ac_search_context_new(struct ac_table*, ac_pattern_found);
-
 #define AC_FOUND_ERROR -1
 
-struct ac_search_context {
-        unsigned long file_offset;
-        struct ac_state *state;
-        struct ac_table *g;
-        ac_pattern_found on_found;
-};
-
 void ac_destroy(struct ac_table *);
-void ac_buffer_findall(struct ac_search_context*, unsigned char*, int);
 
 #endif
 
